@@ -46,11 +46,13 @@ vals = filter(x->x[2] != "no other bags", split.(open(readlines, "07input.txt"),
 vals = [rstrip.(val, 's') for val in vals]
 
 function main()
-    graph = create_graph()
+    global graph = create_graph()
 
     l1 = solve_graph1()
     l2 = solve_graph3()
 end
+
+main()
 
 # Tests
 @testset "Examples" begin
