@@ -26,11 +26,10 @@ function solve_contiguous(goal, ns)
     i, j = 1, 2
 
     while j <= length(ns)
-        s = sum(ns[i:j])
+        s = sum(@view ns[i:j])
 
         if s == goal
-            rs = ns[i:j]
-            return minimum(rs), maximum(rs)
+            return extrema(@view ns[i:j])
         elseif s < goal
             j += 1
         else
@@ -43,14 +42,16 @@ function solve_contiguous(goal, ns)
 end
 
 function main()
-    global lines = parse.(Int, open(readlines, "09example.txt"))
-    global preamble = 5
+    global lines = parse.(Int, open(readlines, "09input.txt"))
+    global preamble = 25
 
     # Part 1
-    @assert solve_all(lines) == 127
+    p1 = solve_all(lines)
 
     # Part 2
-    @assert solve_contiguous(127, lines) == (15, 47)
+    p2 = solve_contiguous(lines[556], lines[1:555])
+
+    return p1, p2
 end
 
-@btime main();
+@btime main(); # ~2.5 ms
