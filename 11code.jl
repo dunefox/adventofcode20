@@ -1,5 +1,3 @@
-using BenchmarkTools, IterTools
-
 function pad(s, padding="■")
     l = length(s[1])
     return [padding^(l + 2);
@@ -13,10 +11,6 @@ function prettyprint(M, M₊)
     println(s)
     println("\n$(M == M₊)\n______________________________________\n")
 end
-
-lines = pad(open(readlines, "11example.txt"))
-M = Char.(transpose(Int.(reduce(hcat, [[l...] for l in lines]))))
-M₊ = copy(M)
 
 # Part 1
 function apply_rule1!(M, M₊, xpos, ypos)
@@ -41,14 +35,11 @@ function solve(M, M₊, board_inds, rule_fn!)
             end
         end
         
-        prettyprint(M, M₊)
-
         if M == M₊
             break
         end
         
         M = copy(M₊)
-        # break
     end
 end
 
@@ -60,29 +51,14 @@ function sightlines(M, xpos, ypos)
         x_curr, y_curr = xpos + xdir, ypos + ydir
 
         while M[x_curr, y_curr] == '.'
-            # @info "WHILE" x_curr, y_curr xdir ydir
-            # if M[x_curr, y_curr] == '#'
-            #     seats_visible += 1
-            #     break
-            # elseif M[x_curr, y_curr] == '?'
-            #     break
-            # end
-
             x_curr += xdir
             y_curr += ydir
         end
 
-        # @info "AFTER WHILE" x_curr y_curr
-
         if M[x_curr, y_curr] == '#'
             seats_visible += 1
-            # @info "found #" seats_visible
         end
     end
-
-    # if seats_visible != 0
-    #     @info "RETURN" seats_visible
-    # end
 
     return seats_visible
 end
@@ -97,15 +73,17 @@ function apply_rule2!(M, M₊, xpos, ypos)
     end
 end
 
+lines = pad(open(readlines, "11input.txt"))
+M = Char.(transpose(Int.(reduce(hcat, [[l...] for l in lines]))))
+M₊ = copy(M)
+
 function main()
-    lines = pad(open(readlines, "11input.txt"))
-    M = Char.(transpose(Int.(reduce(hcat, [[l...] for l in lines]))))
-    M₊ = copy(M)
-
     board_inds = [(i, j) for i in 2:length(lines) - 1 for j in 2:length(lines[1]) - 1]
-    solve(M, M₊, board_inds, apply_rule2!)
+    solve(M, M₊, board_inds, apply_rule1!)
+    println(count(x -> x == '#', M₊))
 
-    count(x -> x == '#', M₊)
+    solve(M, M₊, board_inds, apply_rule2!)
+    println(count(x -> x == '#', M₊))
 end
 
-main()
+@time main()
