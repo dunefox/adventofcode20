@@ -2,15 +2,7 @@ using BenchmarkTools, IterTools, Match
 
 input = open(readlines, "12input.txt")
 
-dir2val = Dict(
-    'N' => 360,
-    'E' => 90,
-    'S' => 180,
-    'W' => 270
-)
-
-val2dir = Dict(values(dir2val) .=> keys(dir2val))
-
+# Part 1
 mutable struct Ship
     x
     y
@@ -23,10 +15,10 @@ end
 
 function move!(w)
     @match ship.curr begin
-        90 => move!(w, 0)
+        90  => move!(w, 0)
         180 => move!(0, -w)
         270 => move!(-w, 0)
-        0 => move!(0, w)
+        0   => move!(0, w)
     end
 end
 
@@ -56,5 +48,3 @@ function part1()
 
     return abs(ship.x) + abs(ship.y)
 end
-
-part1()
