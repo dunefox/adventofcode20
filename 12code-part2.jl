@@ -2,7 +2,7 @@ using BenchmarkTools, IterTools, Match
 
 input = open(readlines, "12input.txt")
 
-# Part 1
+# Part 2
 mutable struct Waypoint
     x::Integer
     y::Integer
