@@ -10,7 +10,7 @@ mutable struct Ship
 end
 
 function steer!(val)
-    ship.curr = (360 + ship.curr + val) % 360 # TODO
+    ship.curr = (360 + ship.curr + val) % 360
 end
 
 function move!(w)
