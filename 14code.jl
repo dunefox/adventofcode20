@@ -65,6 +65,4 @@ function part2(lines)
     return sum(values(memory))
 end
 
-@assert part2(lines) == 3348493585827
-
 @btime part2(lines)
