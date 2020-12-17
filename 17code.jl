@@ -52,14 +52,14 @@ function step()
     next = Dict{Array{Int64,1}, Bool}()
 end
 
-dims = 3
+dims = 4
 active = Dict{Array{Int64,1}, Bool}()
 next = copy(active)
 # All neighbours for a cell
-inds = CartesianIndices(rand(Int8, [dims for i in 1:dims]...))
-offsets = setdiff(map(x->x.I .- [2 for i in 1:dims], inds), [[0, 0, 0]])
+inds = CartesianIndices(rand(Int8, [3 for i in 1:dims]...))
+offsets = setdiff(map(x->x.I .- [2 for i in 1:dims], inds), [[0 for i in 1:dims]])
 
-function resetstate!(file="17example.txt")
+function resetstate!(file)
     global active, next
 
     active = Dict{Array{Int64,1}, Bool}()
@@ -69,8 +69,12 @@ function resetstate!(file="17example.txt")
         for (row, line) in enumerate(readlines(f))
             for (col, cell) in enumerate(line)
                 if cell == '#'
-                    #       row    col    height
-                    active[[row,   col,   1]] = true
+                    #           row    col    height width
+                    if dims == 3
+                        active[[row,   col,   1]]        = true
+                    else
+                        active[[row,   col,   1,     1]] = true
+                    end
                 end
             end
         end
