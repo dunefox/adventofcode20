@@ -3,14 +3,14 @@ using BenchmarkTools, IterTools, Match
 input = open(readlines, "12input.txt")
 
 # Part 2
-mutable struct Waypoint
-    x::Integer
-    y::Integer
+mutable struct Waypoint{T <: Number}
+    x::T
+    y::T
 end
 
-mutable struct Ship
-    x::Integer
-    y::Integer
+mutable struct Ship{T <: Number}
+    x::T
+    y::T
     waypoint::Waypoint
 end
 
